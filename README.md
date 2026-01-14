@@ -1,7 +1,3 @@
-Here is a concise, high-density explanation formatted so you can paste it directly to Claude Code. It defines the **Input**, **Output**, and **Purpose** of each phase.
-
----
-
 ### 📋 System Protocol: The Genesis Workflow
 
 We use a strict **3-Phase Initialization** process to prevent hallucination and ensure architectural alignment before coding begins.
