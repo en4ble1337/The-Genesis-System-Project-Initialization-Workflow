@@ -1,4 +1,4 @@
-### 📋 System Protocol: The Genesis Workflow
+### System Protocol: The Genesis Workflow
 
 We use a strict **3-Phase Initialization** process to prevent hallucination and ensure architectural alignment before coding begins.
 
