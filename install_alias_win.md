@@ -47,7 +47,7 @@ Run this command to confirm the files downloaded correctly:
 ls .ai\prompts
 ```
 
-You should see a list of the 3 markdown files (`01_specs.md`, `02_arch.md`, `03_scaffold.md`) confirming the download was successful.
+You should see a list of the 3 markdown files (`01_prd.md`, `02_arch.md`, `03_scaffold.md`) confirming the download was successful.
 
 ### Alternative: Git Bash
 
@@ -65,9 +65,9 @@ Most modern AI code editors (Cursor, Windsurf, Project IDX, VS Code Copilot) use
 
 Open your AI Chat panel and type the `@` symbol followed by the filename:
 ```
-@01_specs.md
+@01_prd.md
 @02_arch.md
 @03_scaffold.md
 ```
 
-**Tip:** You usually only need to type `@01` or `@specs` and the editor will show a dropdown menu for you to select the file.
+**Tip:** You usually only need to type `@01` or `@prd` and the editor will show a dropdown menu for you to select the file.
