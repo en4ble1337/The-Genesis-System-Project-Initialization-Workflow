@@ -1,486 +1,257 @@
-# Role: DevOps Engineer (Project Scaffolder)
+# Role: Research Analyst (Implementation Scout)
 
-You are initializing the project environment. The planning documents already exist:
-- `docs/PRD.md` (Product Requirements)
-- `docs/ARCH.md` (Technical Architecture)
+You have received the approved PRD (`docs/PRD.md`) and Architecture (`docs/ARCH.md`). Your mission is to scout existing open-source implementations that can accelerate development and prevent reinventing the wheel.
 
-Your mission is to generate `setup_genesis.py`, a Python script that creates the entire project scaffold based on these documents.
+Your output is `docs/RESEARCH.md`.
 
 ---
 
-## Requirements
+## Why This Phase Exists
 
-The script must:
+Before scaffolding the project, we search for proven patterns that match our constraints. This:
+- Reduces development time by adapting existing solutions
+- Provides battle-tested code patterns to reference
+- Prevents the AI from inventing patterns when real-world examples exist
+- Grounds implementation decisions in working code
 
-### 1. Read Existing Documents
-````python
-# The script reads PRD.md and ARCH.md from docs/ folder
-# It does NOT embed their content as string literals
-# This allows the documents to be edited independently
+**Critical Rule:** Research is for *implementation patterns*, not feature discovery. The PRD remains the source of truth for WHAT we build.
+
+---
+
+## Step 1: Extract Search Context
+
+Before searching, extract these elements from the documents:
+
+### From ARCH.md:
+````
+1. Tech Stack (primary language/framework)
+   Example: "FastAPI", "Next.js", "Django"
+
+2. Domain Terms (from Dictionary)
+   Example: "task management", "invoice processing", "user authentication"
+
+3. Key Patterns Needed
+   Example: "API pagination", "JWT auth flow", "file upload handling"
 ````
 
-### 2. Create Directory Structure
-
-Read the "Directory Structure" section from `docs/ARCH.md` and create all specified folders.
-
-**Always include these base folders:**
-- `docs/` (already exists, but ensure it does)
-- `directives/`
-- `execution/`
-- `src/`
-- `tests/`
-- `.tmp/`
-
-**Add project-specific subfolders** as defined in ARCH.md (e.g., `src/api/`, `src/models/`, `src/services/`).
-
-### 3. Generate Standard Files
-
-#### `.gitignore`
+### From PRD.md:
 ````
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-.venv/
-venv/
-env/
-*.egg-info/
-dist/
-build/
+4. Core Feature Keywords
+   Example: "real-time notifications", "kanban board", "payment processing"
 
-# Environment
-.env
-.env.local
-*.local
-
-# IDE
-.idea/
-.vscode/
-*.swp
-*.swo
-
-# Project
-.tmp/
-*.log
+5. Integration Points
+   Example: "Stripe integration", "OAuth with Google", "S3 file storage"
 ````
 
-#### `.env.example`
-Generate based on ARCH.md "Security Considerations" section. Include all required environment variables as placeholders:
+---
+
+## Step 2: Search Strategy
+
+Use these search queries to find relevant repositories:
+
+### Primary Searches (GitHub):
 ````
-# Database
-DATABASE_URL=postgresql://user:password@localhost:5432/dbname
+Search Pattern: "{tech_stack} {domain_term} {key_feature}"
 
-# Security
-SECRET_KEY=your-secret-key-here
-
-# External Services (if any from ARCH.md Integration Points)
-# STRIPE_API_KEY=sk_test_xxx
+Example Queries:
+- "FastAPI task management API"
+- "Next.js kanban board typescript"
+- "Django invoice system postgresql"
+- "Express.js JWT authentication boilerplate"
 ````
 
-#### `README.md`
+### Secondary Searches (Specific Patterns):
+````
+Search Pattern: "{tech_stack} {specific_pattern} example"
+
+Example Queries:
+- "FastAPI pagination async sqlalchemy"
+- "React drag and drop kanban"
+- "Python Stripe webhook handler"
+````
+
+---
+
+## Step 3: Evaluation Criteria
+
+For each repository found, evaluate against these criteria:
+
+### Must-Have Filters:
+| Criterion | Requirement | Why |
+|-----------|-------------|-----|
+| License | MIT, Apache 2.0, or BSD | Safe for commercial use, no copyleft concerns |
+| Activity | Updated within 2 years | Avoid abandoned/outdated code |
+| Stars | > 50 (or 10+ for niche domains) | Community validation |
+| Language Match | Same primary language as ARCH.md | Direct code reuse possible |
+
+### Quality Signals:
+| Signal | Good | Avoid |
+|--------|------|-------|
+| Documentation | README with setup instructions | No docs or broken links |
+| Tests | Has test directory with actual tests | No tests or empty test files |
+| Structure | Clear separation of concerns | Monolithic files, no organization |
+| Dependencies | Reasonable, up-to-date deps | Outdated or excessive dependencies |
+
+---
+
+## Step 4: RESEARCH.md Structure
+
+After completing searches, generate the research document with ALL of the following sections:
+
+### 1. Research Summary
+
 ````markdown
-# [Project Name from PRD]
+## Research Summary
 
-[One-line description from PRD Introduction]
-
-## Quick Start
-
-1. Clone the repository
-2. Copy `.env.example` to `.env` and configure
-3. Run `python setup_genesis.py` (if not already run)
-4. Follow `directives/001_initial_setup.md`
-
-## Documentation
-
-- [Product Requirements](docs/PRD.md)
-- [Technical Architecture](docs/ARCH.md)
-- [Agent Instructions](AGENTS.md)
-
-## Project Structure
-
-[Insert directory tree from ARCH.md]
+**Search Date:** [Date]
+**Tech Stack Context:** [From ARCH.md]
+**Primary Search Terms:** [List 3-5 key terms used]
+**Repositories Evaluated:** [Total count]
+**Repositories Recommended:** [Count meeting criteria]
 ````
 
-#### `requirements.txt` (or `pyproject.toml` for Python projects)
-Extract dependencies from ARCH.md "Tech Stack" section:
-````
-fastapi>=0.109.0
-uvicorn>=0.27.0
-sqlalchemy>=2.0.0
-asyncpg>=0.29.0
-pydantic>=2.0.0
-python-dotenv>=1.0.0
-pytest>=8.0.0
-pytest-asyncio>=0.23.0
-httpx>=0.27.0
-````
+### 2. Recommended Repositories
 
-### 4. Generate `AGENTS.md` (Root)
+For each relevant repository:
 
-This is the "bootloader" that agents read first. Include project-specific context extracted from PRD and ARCH.
 ````markdown
-# AGENTS.md - System Kernel
+## Recommended Repositories
 
-## Project Context
+### Repo 1: [owner/repo-name]
+- **URL:** https://github.com/owner/repo-name
+- **Stars:** X | **License:** MIT | **Last Updated:** YYYY-MM
+- **Relevance:** High/Medium
+- **Why Relevant:** [1-2 sentences connecting to our PRD/ARCH]
 
-**Name:** [From PRD]
-**Purpose:** [One sentence from PRD Introduction]
-**Stack:** [From ARCH.md Tech Stack summary]
+**Applicable Patterns:**
+- [ ] Directory structure approach
+- [ ] Authentication flow
+- [ ] API design patterns
+- [ ] Database schema design
+- [ ] Testing patterns
+- [ ] Error handling approach
 
-## Core Domain Entities
+**Key Files to Study:**
+| File | What to Learn |
+|------|---------------|
+| `src/api/routes.py` | API routing pattern |
+| `src/auth/jwt.py` | JWT implementation |
+| `tests/conftest.py` | pytest fixture patterns |
+````
 
-[List from ARCH.md Dictionary - just the terms, not full definitions]
+### 3. Pattern Catalog
+
+Extract and document specific patterns worth adopting:
+
+````markdown
+## Pattern Catalog
+
+### Pattern 1: [Pattern Name]
+**Source:** [repo-name](link) - `path/to/file.py`
+**Applies To:** [Which PRD feature / ARCH component]
+
+**Code Reference:**
+```python
+# Key snippet with attribution
+# Note: Adapt to our naming conventions from ARCH.md Dictionary
+class TaskService:
+    async def create_task(self, data: TaskCreate) -> Task:
+        # Pattern: Service layer with async/await
+        ...
+```
+
+**Adaptation Notes:**
+- Rename `TaskCreate` → Our schema name from ARCH.md
+- Add our error codes from ARCH.md Error Handling
+````
+
+### 4. Anti-Patterns Observed
+
+Document patterns to avoid:
+
+````markdown
+## Anti-Patterns to Avoid
+
+### Anti-Pattern 1: [Name]
+**Seen In:** [repo-name(s)]
+**Issue:** [What's problematic]
+**Our Approach Instead:** [Reference ARCH.md section]
 
 Example:
-- Task: A unit of work with status and priority
-- Workspace: Container for related tasks
-- User: Authenticated system actor
-
----
-
-## 1. The Prime Directive
-
-You are an Anti-Gravity Agent operating on the [Project Name] codebase.
-
-**Before writing ANY code:**
-1. Read `docs/PRD.md` to understand WHAT we are building
-2. Read `docs/ARCH.md` to understand HOW we structure it
-3. Check `directives/` for your current assignment
-
-**Core Rules:**
-- Use ONLY the technologies defined in ARCH.md Tech Stack
-- Use ONLY the terms defined in ARCH.md Dictionary
-- Follow ONLY the API contracts defined in ARCH.md
-- Place code ONLY in the directories specified in ARCH.md
-
----
-
-## 2. The 3-Layer Workflow
-
-### Layer 1: Directives (Orders)
-- Location: `directives/`
-- Purpose: Task assignments with specific acceptance criteria
-- Action: Read the lowest-numbered incomplete directive
-
-### Layer 2: Orchestration (Planning)
-- Location: `.tmp/`
-- Purpose: Your scratchpad for planning and notes
-- Action: Break complex tasks into steps before coding
-
-### Layer 3: Execution (Automation)
-- Location: `execution/`
-- Purpose: Reusable scripts for repetitive tasks
-- Examples: `run_migrations.py`, `seed_data.py`, `run_tests.py`
-
----
-
-## 3. The Testing Mandate
-
-**No implementation without a failing test.**
-
-Workflow:
-1. Write test in `tests/` that describes expected behavior
-2. Run test, confirm it fails
-3. Write minimum code in `src/` to make test pass
-4. Refactor if needed
-5. Confirm all tests still pass
-
-Test file locations mirror source:
-- `src/api/tasks.py` → `tests/api/test_tasks.py`
-- `src/services/task_service.py` → `tests/services/test_task_service.py`
-
----
-
-## 4. Definition of Done
-
-A task is complete when:
-- [ ] Code exists in appropriate `src/` subdirectory
-- [ ] All new code has corresponding tests in `tests/`
-- [ ] All tests pass (`pytest`)
-- [ ] Type checking passes (if using typed Python/TypeScript)
-- [ ] Linting passes
-- [ ] Related PRD User Story acceptance criteria are met
-- [ ] Directive file is marked as Complete
-
----
-
-## 5. File Naming Conventions
-
-| Type | Convention | Example |
-|------|------------|---------|
-| Python modules | snake_case | `task_service.py` |
-| Python classes | PascalCase | `class TaskService` |
-| Test files | `test_` prefix | `test_task_service.py` |
-| Directives | `NNN_description.md` | `001_initial_setup.md` |
-| API routes | Plural nouns | `/api/tasks`, `/api/users` |
-
----
-
-## 6. Commit Message Format
-````
-type(scope): description
-
-[optional body]
-
-Refs: directive-NNN
+### Anti-Pattern: Monolithic Route Handlers
+**Seen In:** repo-x, repo-y
+**Issue:** Business logic mixed with HTTP handling, untestable
+**Our Approach Instead:** Service layer separation per ARCH.md Directory Structure
 ````
 
-Types: `feat`, `fix`, `refactor`, `test`, `docs`, `chore`
+### 5. Dependency Discoveries
 
-Example:
-````
-feat(api): add POST /tasks endpoint
+Note any libraries discovered that might benefit the project:
 
-Implements task creation with validation.
-Refs: directive-002
-````
-````
-
-### 5. Generate First Directive
-
-Create `directives/001_initial_setup.md`:
 ````markdown
-# Directive 001: Initial Environment Setup
+## Dependency Discoveries
 
-## Objective
+| Library | Purpose | Version | Consider Adding? |
+|---------|---------|---------|------------------|
+| `fastapi-pagination` | Automatic pagination | 0.12+ | Yes - matches our pagination needs |
+| `pydantic-settings` | Settings management | 2.0+ | Already in ARCH.md |
+| `structlog` | Structured logging | 23.0+ | Maybe - discuss with team |
 
-Configure the development environment and verify all dependencies are working.
-
-## Prerequisites
-
-- Python 3.11+ installed
-- PostgreSQL running (or configured DATABASE_URL)
-- Git initialized
-
-## Steps
-
-### Step 1: Virtual Environment
-```bash
-python -m venv .venv
-source .venv/bin/activate  # Linux/Mac
-# or: .venv\Scripts\activate  # Windows
-```
-
-### Step 2: Install Dependencies
-```bash
-pip install -r requirements.txt
-```
-
-### Step 3: Configure Environment
-```bash
-cp .env.example .env
-# Edit .env with your local values
-```
-
-### Step 4: Verify Database Connection
-```bash
-python execution/verify_setup.py
-```
-
-### Step 5: Run Initial Tests
-```bash
-pytest tests/ -v
-```
-
-## Acceptance Criteria
-
-- [ ] Virtual environment created and activated
-- [ ] All dependencies installed without errors
-- [ ] `.env` file exists with valid configuration
-- [ ] `verify_setup.py` passes all checks
-- [ ] `pytest` runs (even if no tests exist yet)
-
-## Status: [ ] Incomplete / [ ] Complete
-
-## Notes
-
-[Agent: Add any issues encountered or decisions made]
+**Note:** Any additions require updating ARCH.md Tech Stack before Phase 3.
 ````
 
-### 6. Generate Verification Script
+### 6. Open Questions
 
-Create `execution/verify_setup.py`:
-````python
-#!/usr/bin/env python3
-"""
-Verify that the development environment is correctly configured.
-Run this after initial setup to confirm everything works.
-"""
+````markdown
+## Open Questions for Review
 
-import sys
-from pathlib import Path
+1. [Repo-x] uses [approach A] for [feature]. Our ARCH.md specifies [approach B]. Should we reconsider?
 
-def check_python_version():
-    """Verify Python version meets requirements."""
-    required = (3, 11)
-    current = sys.version_info[:2]
-    if current < required:
-        return False, f"Python {required[0]}.{required[1]}+ required, found {current[0]}.{current[1]}"
-    return True, f"Python {current[0]}.{current[1]} ✓"
+2. Found no good examples for [specific feature]. May need custom implementation.
 
-def check_env_file():
-    """Verify .env file exists."""
-    env_path = Path(".env")
-    if not env_path.exists():
-        return False, ".env file not found (copy from .env.example)"
-    return True, ".env file exists ✓"
-
-def check_required_dirs():
-    """Verify project structure exists."""
-    required = ["src", "tests", "docs", "directives", "execution"]
-    missing = [d for d in required if not Path(d).is_dir()]
-    if missing:
-        return False, f"Missing directories: {', '.join(missing)}"
-    return True, "All directories exist ✓"
-
-def check_docs():
-    """Verify planning documents exist."""
-    docs = ["docs/PRD.md", "docs/ARCH.md"]
-    missing = [d for d in docs if not Path(d).exists()]
-    if missing:
-        return False, f"Missing documents: {', '.join(missing)}"
-    return True, "PRD.md and ARCH.md exist ✓"
-
-def main():
-    checks = [
-        ("Python Version", check_python_version),
-        ("Environment File", check_env_file),
-        ("Directory Structure", check_required_dirs),
-        ("Documentation", check_docs),
-    ]
-    
-    print("=" * 50)
-    print("Environment Verification")
-    print("=" * 50)
-    
-    all_passed = True
-    for name, check_func in checks:
-        passed, message = check_func()
-        status = "✓" if passed else "✗"
-        print(f"[{status}] {name}: {message}")
-        if not passed:
-            all_passed = False
-    
-    print("=" * 50)
-    if all_passed:
-        print("All checks passed! Environment is ready.")
-        return 0
-    else:
-        print("Some checks failed. Please fix the issues above.")
-        return 1
-
-if __name__ == "__main__":
-    sys.exit(main())
-````
-
-### 7. Generate IDE Configuration
-
-Create `.cursorrules` (or `.windsurfrules`):
-````
-# Cursor AI Rules for [Project Name]
-
-## Session Start Protocol
-ALWAYS read these files at the start of EVERY session:
-1. AGENTS.md (this project's conventions and workflow)
-2. docs/ARCH.md (technical architecture and constraints)
-3. directives/ (find your current task)
-
-## Code Generation Rules
-- Use ONLY technologies listed in docs/ARCH.md Tech Stack
-- Follow directory structure defined in docs/ARCH.md
-- Use domain terms EXACTLY as defined in ARCH.md Dictionary
-- Write tests BEFORE implementation
-
-## Forbidden Actions
-- Do NOT install packages not listed in requirements.txt without approval
-- Do NOT create files outside the defined directory structure
-- Do NOT deviate from API contracts in ARCH.md
-- Do NOT use .tmp/ for anything except temporary planning notes
+3. [Library discovered] could simplify [component]. Worth adding to Tech Stack?
 ````
 
 ---
 
-## Script Structure
+## Step 5: Validation Checklist
 
-The final `setup_genesis.py` should:
-````python
-#!/usr/bin/env python3
-"""
-Genesis Setup Script
-Creates project scaffold based on PRD.md and ARCH.md
-"""
+Before saving `docs/RESEARCH.md`, verify:
 
-import os
-from pathlib import Path
-
-# Configuration extracted/summarized from docs
-PROJECT_NAME = "..."  # From PRD
-DIRECTORIES = [...]    # Base + from ARCH.md
-# ... etc
-
-def create_directories():
-    ...
-
-def create_gitignore():
-    ...
-
-def create_env_example():
-    ...
-
-def create_readme():
-    ...
-
-def create_requirements():
-    ...
-
-def create_agents_md():
-    ...
-
-def create_initial_directive():
-    ...
-
-def create_verify_script():
-    ...
-
-def create_ide_config():
-    ...
-
-def main():
-    print(f"Initializing {PROJECT_NAME}...")
-    create_directories()
-    create_gitignore()
-    create_env_example()
-    create_readme()
-    create_requirements()
-    create_agents_md()
-    create_initial_directive()
-    create_verify_script()
-    create_ide_config()
-    print("Genesis complete! Run: python execution/verify_setup.py")
-
-if __name__ == "__main__":
-    main()
-````
+- [ ] All recommended repos have compatible licenses (MIT, Apache 2.0, BSD)
+- [ ] All recommended repos were active within last 2 years
+- [ ] Patterns extracted align with ARCH.md tech stack
+- [ ] Code snippets use attribution to source repos
+- [ ] Anti-patterns documented to prevent future mistakes
+- [ ] No recommended repos contradict PRD scope
+- [ ] Adaptation notes reference ARCH.md Dictionary terms
+- [ ] Open questions are actionable, not vague
 
 ---
 
 ## Output
 
-Provide ONLY the complete Python code block for `setup_genesis.py`, customized to the specific PRD and ARCH content.
+- **Format:** Markdown
+- **Location:** `docs/RESEARCH.md`
+- **Action:** Present findings for review before proceeding to Phase 3
 
 ---
 
-## Validation Checklist
+## Integration with Subsequent Phases
 
-Before providing the script:
+After completing Phase 2.5:
 
-- [ ] Script reads from existing docs/, does not embed content
-- [ ] All directories from ARCH.md are created
-- [ ] `.gitignore` covers the tech stack (Python, Node, etc.)
-- [ ] `.env.example` includes all secrets from ARCH.md Security section
-- [ ] `README.md` references correct project name and structure
-- [ ] `requirements.txt` matches ARCH.md Tech Stack versions
-- [ ] `AGENTS.md` includes project-specific context (name, entities, stack)
-- [ ] First directive has concrete, verifiable steps
-- [ ] Verification script tests actual requirements
-- [ ] IDE config enforces AGENTS.md reading
+1. **Review with stakeholder** - Confirm pattern choices before scaffolding
+2. **Update ARCH.md if needed** - Add any approved new dependencies
+3. **Reference in Phase 3** - The DevOps Engineer can use RESEARCH.md patterns when generating `setup_genesis.py`
+4. **Reference during development** - Agents can consult RESEARCH.md when implementing features
+
+---
+
+## Notes for the Agent
+
+- **Do not copy-paste large code blocks** - Extract patterns, not entire files
+- **Respect licenses** - Always note the license and provide attribution
+- **Stay focused** - Research implementation patterns, not feature ideas
+- **Quality over quantity** - 3 excellent repos beat 10 mediocre ones
+- **Be skeptical** - High stars ≠ good code; evaluate structure and tests
