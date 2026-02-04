@@ -1,5 +1,3 @@
-# 🚀 Launchpad
-
 ![Launchpad Hero](assets/launchpad_hero.png)
 
 **A 4-phase workflow that transforms vague ideas into hallucination-proof codebases.**
