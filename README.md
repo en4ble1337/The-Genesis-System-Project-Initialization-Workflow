@@ -139,6 +139,8 @@ The AI becomes your DevOps Engineer. It generates a Python script that creates y
 
 ---
 
+## Initiate Directives
+
 ## After Launchpad: The Development Workflow
 
 Once scaffolded, your project includes `AGENTS.md` and methodology docs that define how AI assistants work on your codebase. The development loop becomes:
