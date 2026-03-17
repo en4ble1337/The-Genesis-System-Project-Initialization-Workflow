@@ -44,8 +44,9 @@ Four separate sessions, maximum control.
 
 Each phase runs in its own AI session. You manually pass outputs between phases. Best when you want to iterate heavily on individual phases or use different AI models per phase.
 
-You end up with a fully scaffolded project, complete planning documents, and a sequenced directive backlog for implementation.
 ---
+You end up with a fully scaffolded project, complete planning documents, and a sequenced directive backlog for implementation.
+
 
 ## The Four Phases
 
