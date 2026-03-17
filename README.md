@@ -30,44 +30,23 @@ Launchpad is a set of AI prompts that guide you through a structured project ini
 
 ### Choose Your Approach
 
-<table>
-<tr>
-<td width="50%">
-
-#### Option A: Single Session (Recommended)
-
-One prompt, one session, all four phases.
-
-1. **Clone or bookmark this repo**
-2. Copy [launchpad.md](launchpad.md) → Paste into AI chat
-3. Describe your idea when prompted
-4. Answer questions at each phase transition
-5. Approve each phase's output before moving on
-6. Get `setup_launchpad.py` → Run it
-
-The AI walks you through all 4 phases sequentially, using its own output as input for the next phase. No copy-pasting between sessions.
-
-</td>
-<td width="50%">
-
-#### Option B: Phase by Phase
+### Phase by Phase
 
 Four separate sessions, maximum control.
 
-1. **Clone or bookmark this repo**
-2. **Phase 1:** Copy [phase1.md](phase1.md) → Paste into AI → Save output as `docs/PRD.md`
-3. **Phase 2:** Copy [phase2.md](phase2.md) + your PRD → Paste into AI → Save as `docs/ARCH.md`
-4. **Phase 3:** Copy [phase3.md](phase3.md) + PRD + ARCH → Paste into AI → Save as `docs/RESEARCH.md`
-5. **Phase 4:** Copy [phase4.md](phase4.md) + all docs → Get `setup_launchpad.py` → Run it
+1. Clone or bookmark this repo
+2. Phase 1: Copy [phase1.md](./phase1.md) → Paste into AI → Save output as `docs/PRD.md`
+3. Phase 2: Copy [phase2.md](./phase2.md) + your PRD → Paste into AI → Save as `docs/ARCH.md`
+4. Phase 3: Copy [phase3.md](./phase3.md) + PRD + ARCH → Paste into AI → Save as `docs/RESEARCH.md`
+5. Phase 4: Copy [phase4.md](./phase4.md) + all docs → Get `setup_launchpad.py` → Run it
+6. Initiate directives: Copy [directive.md](./directive.md) + your generated planning docs into AI → Generate the remaining files in `directives/`
+   - Use this after the scaffold exists
+   - This is not an official Launchpad phase
+   - Its purpose is to create the implementation directive backlog that phases 1-4 do not produce on their own
 
 Each phase runs in its own AI session. You manually pass outputs between phases. Best when you want to iterate heavily on individual phases or use different AI models per phase.
 
-</td>
-</tr>
-</table>
-
-**Either way, you end up with the same result:** a fully scaffolded project with clear documentation and a complete development methodology.
-
+You end up with a fully scaffolded project, complete planning documents, and a sequenced directive backlog for implementation.
 ---
 
 ## The Four Phases
